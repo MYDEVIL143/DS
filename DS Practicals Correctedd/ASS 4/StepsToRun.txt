@@ -1,0 +1,5 @@
+🔹 How to Run 
+
+$env:MPJ_HOME = "C:\mpj"
+$env:PATH += ";C:\mpj\bin"
+mpjrun.bat -np 4 SumMPI
