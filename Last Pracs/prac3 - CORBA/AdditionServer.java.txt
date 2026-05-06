@@ -1,0 +1,43 @@
+import AdditionApp.*;
+import org.omg.CORBA.*;
+import org.omg.CosNaming.*;
+import org.omg.PortableServer.*;
+
+class AdditionServer {
+
+    public static void main(String args[]) {
+
+        try {
+
+            ORB orb = ORB.init(args, null);
+
+            POA rootpoa = POAHelper.narrow(
+                    orb.resolve_initial_references("RootPOA"));
+
+            rootpoa.the_POAManager().activate();
+
+            AdditionImpl addobj = new AdditionImpl();
+
+            org.omg.CORBA.Object ref = rootpoa.servant_to_reference(addobj);
+
+            Addition href = AdditionHelper.narrow(ref);
+
+            org.omg.CORBA.Object objRef =
+                    orb.resolve_initial_references("NameService");
+
+            NamingContextExt ncRef =
+                    NamingContextExtHelper.narrow(objRef);
+
+            String name = "ADD";
+
+            ncRef.rebind(ncRef.to_name(name), href);
+
+            System.out.println("Server ready...");
+
+            orb.run();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}

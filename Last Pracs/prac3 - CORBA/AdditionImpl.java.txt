@@ -1,0 +1,10 @@
+import AdditionApp.*;
+import org.omg.CORBA.*;
+import org.omg.PortableServer.*;
+
+class AdditionImpl extends AdditionPOA {
+
+    public float add(float a, float b) {
+        return a + b;
+    }
+}
